@@ -54,6 +54,7 @@ void ascii_init(){
     ASCII[0x0a] = '9';
     ASCII[0x39] = ' ';
     ASCII[0x1c] = '\n';
+
 }
 
 volatile uint8_t* VGA = (volatile uint8_t*)0xB8000;
@@ -245,7 +246,7 @@ void hexdump(){
         for(int j = 0; j < 8; j++){
             byte = read_byte((addr + i+ j));
             byte2hex(byte, &str[j*4]);
-            str[33+j] = ASCII[byte];
+            str[33+j] = (char)byte;
         }
         vga_curr_line = 0;
         printstr(str, 80);
@@ -260,7 +261,7 @@ void read8(void){
     uint8_t val = read_byte(addr);
     char str[3] = {0};
     byte2hex(val, str);
-    printstr("\n", 3);
+    printstr("\n", 1);
     printstr(str, 2);
     LAST_VAR = (uint64_t)val;
 }
